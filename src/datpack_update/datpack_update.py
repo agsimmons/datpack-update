@@ -5,9 +5,11 @@ import shutil
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Update no-intro DAT files")
-    parser.add_argument("src", help="Source directory of new DAT files")
-    parser.add_argument("dest", help="Destination directory of updated DAT files")
+    parser = argparse.ArgumentParser(description="Update No-Intro DAT files")
+    parser.add_argument("src", type=Path, help="Source directory of new DAT files")
+    parser.add_argument(
+        "dest", type=Path, help="Destination directory of updated DAT files"
+    )
 
     return parser.parse_args()
 
@@ -62,10 +64,7 @@ def apply_transformations(transformations):
         shutil.copy(src, dest_dir)
 
 
-def main(args):
-    source_dir = Path(args.src)
-    dest_dir = Path(args.dest)
-
+def run(source_dir, dest_dir):
     source_files = parse_dat_files_in_dir(source_dir)
     dest_files = parse_dat_files_in_dir(dest_dir)
 
@@ -83,6 +82,10 @@ def main(args):
             apply_transformations(transformations)
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
-    main(args)
+    run(args.source_dir, args.dest_dir)
+
+
+if __name__ == "__main__":
+    main()
