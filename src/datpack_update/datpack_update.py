@@ -84,7 +84,7 @@ def run(source_dir, dest_dir):
 
 def main():
     args = parse_args()
-    run(args.source_dir, args.dest_dir)
+    run(args.src, args.dest)
 
 
 if __name__ == "__main__":
