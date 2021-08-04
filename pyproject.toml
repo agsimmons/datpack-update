@@ -1,9 +1,11 @@
 [tool.poetry]
 name = "datpack-update"
-version = "1.0.0"
+version = "1.0.1"
 description = "Update No-Intro DAT files"
 authors = ["Andrew Simmons <agsimmons0@gmail.com>"]
 license = "MIT"
+repository = "https://github.com/agsimmons/datpack-update"
+readme = "README.md"
 
 [tool.poetry.scripts]
 datpack-update = "datpack_update.datpack_update:main"
