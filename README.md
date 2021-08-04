@@ -1,3 +1,5 @@
+[![PyPI](https://img.shields.io/pypi/v/datpack-update)](https://pypi.org/project/datpack-update/)
+
 # datpack-update
 Update No-Intro DAT files
 
