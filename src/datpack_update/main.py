@@ -2,16 +2,8 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 import shutil
-
-
-def parse_args():
-    parser = argparse.ArgumentParser(description="Update No-Intro DAT files")
-    parser.add_argument("src", type=Path, help="Source directory of new DAT files")
-    parser.add_argument(
-        "dest", type=Path, help="Destination directory of updated DAT files"
-    )
-
-    return parser.parse_args()
+import sys
+from typing import Sequence
 
 
 def split_date_from_filename(file_name):
@@ -82,10 +74,21 @@ def run(source_dir, dest_dir):
             apply_transformations(transformations)
 
 
-def main():
-    args = parse_args()
+def main(argv: Sequence[str] | None = None) -> int:
+    argv = argv if argv is not None else sys.argv[1:]
+
+    parser = argparse.ArgumentParser(
+        prog="datpack-update", description="Update No-Intro DAT files"
+    )
+    parser.add_argument("src", type=Path, help="Source directory of new DAT files")
+    parser.add_argument(
+        "dest", type=Path, help="Destination directory of updated DAT files"
+    )
+
+    args = parser.parse_args(argv)
+
     run(args.src, args.dest)
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
