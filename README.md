@@ -16,7 +16,7 @@ Sega - Master System - Mark III (20210527-151920).dat
 
 ## Usage
 ```
-usage: datpack-update.py [-h] src dest
+usage: datpack-update [-h] src dest
 
 Update No-Intro DAT files
 
