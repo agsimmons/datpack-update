@@ -17,11 +17,13 @@ def split_date_from_filename(file_name):
 
 
 def parse_dat_files_in_dir(dat_path):
-    dat_files = dat_path.glob("*.dat")
-
     dat_structure = {}
-    for dat_file in dat_files:
-        system, date = split_date_from_filename(dat_file.name)
+    for dat_file in dat_path.glob("**/*.dat"):
+        try:
+            system, date = split_date_from_filename(dat_file.name)
+        except ValueError:
+            # Skip files which do not have a supported date in their name
+            continue
 
         dat_structure[system] = {"timestamp": date, "path": dat_file}
 
