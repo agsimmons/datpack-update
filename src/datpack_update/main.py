@@ -28,42 +28,40 @@ def parse_dat_files_in_dir(dat_path):
     return dat_structure
 
 
-def determine_transformations(source_files, dest_files):
+def determine_transformations(new_files, current_files):
     transformations = []
 
-    for system, file_data in source_files.items():
+    for system, file_data in new_files.items():
         # Check if the system is present in dest_files
-        if system in dest_files:
-            dest_file = dest_files[system]
+        if system in current_files:
+            current_file = current_files[system]
 
             # Check if the source file is newer than the dest file
-            if file_data["timestamp"] > dest_file["timestamp"]:
-                transformations.append((file_data["path"], dest_file["path"]))
+            if file_data["timestamp"] > current_file["timestamp"]:
+                transformations.append((file_data["path"], current_file["path"]))
 
     return transformations
 
 
 def apply_transformations(transformations):
-    for src, dst in transformations:
-        print(f"{src.name} -> {dst.name}\n")
+    for new_file, old_file in transformations:
+        dest_dir = old_file.parent
 
-        dest_dir = dst.parent
+        print(f"Deleting {old_file.name}")
+        old_file.unlink()
 
-        print(f"Deleting {dst.name}...")
-        dst.unlink()
-
-        print(f"Copying {src.name} to {dest_dir}...")
-        shutil.copy(src, dest_dir)
+        print(f"Copying {new_file.name} to {dest_dir}")
+        shutil.copy(new_file, dest_dir)
 
 
-def run(source_dir, dest_dir):
-    source_files = parse_dat_files_in_dir(source_dir)
-    dest_files = parse_dat_files_in_dir(dest_dir)
+def run(new_files_dir, current_files_dir):
+    new_files = parse_dat_files_in_dir(new_files_dir)
+    current_files = parse_dat_files_in_dir(current_files_dir)
 
-    transformations = determine_transformations(source_files, dest_files)
+    transformations = determine_transformations(new_files, current_files)
 
-    for src, dst in transformations:
-        print(f"{src.name} -> {dst.name}")
+    for new_file, old_file in transformations:
+        print(f"{old_file.name} -> {new_file.name} ")
 
     if len(transformations) > 0:
         response = None
